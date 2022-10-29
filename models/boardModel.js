@@ -10,11 +10,10 @@ const getList = (page, pagesize, searchkey, result) => {
     let end = pagesize;
 
     con.connect();
-    let sql1 = "select count(id) as cnt from board_202008012 where (title like ?);";     //쿼리가 두개실행이기에 sql1,2 둘다 ; 추가
-    let sql2 = "select id, title, content, viewcount,regdate from board_202008012 where (title like ?) order by id desc limit ?, ?;";
+    let sql = "select count(id) as cnt from board_202008012 where (title like ?)";     
     let params = ['%'+searchkey+'%', '%'+searchkey+'%',start, end];
     
-    con.query(sql1+sql2, params,(err, rows)=>{
+    con.query(sql, params,(err, rows)=>{
         con.end();
         if(err) {
             console.log(db);
@@ -84,10 +83,31 @@ const getEdit = (title, content, result) => {
             result(rows[0]);//해당되는 게시글 1개
     });
 }
+const updateData = (id, title, content, result)=>{
+    const con = mysql.createConnection(db);
+    
+    con.connect();
+    let sql = 'update board_202008012 set title=?, content=? where id = ?';
+    let params = [title, content,id];
+
+    con.query(sql, params, (err, rows)=>{
+        con.end();
+        if(err) {
+            console.log('boardModel getView Error ');
+            console.log(err);
+            con.end();
+            result(null);
+        } else {
+            result(rows[0]);
+        }
+    });
+};
+
 
 module.exports = {
     getList,
     getView,
     setBoard,
-    getEdit
+    getEdit,
+    updateData
 }
