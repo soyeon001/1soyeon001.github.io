@@ -84,84 +84,66 @@
               <div class="circle intro-circle-1"></div>
               <div class="circle intro-circle-2"></div>
               <div class="mx-auto tm-border-top gallery-slider">
-                <figure class="effect-julia item">
-                    <img src="img/gallery-img-01.jpg" alt="Image">
-                    <figcaption>
-                        <div>
-                            <p>Julia dances in the deep dark</p>
-                        </div>
-                        <a href="#">View more</a>
-                    </figcaption>
-                </figure>
-                <figure class="effect-julia item">
-                    <img src="img/gallery-img-02.jpg" alt="Image">
-                    <figcaption>
-                        <div>
-                            <p>Julia dances in the deep dark</p>
-                        </div>
-                        <a href="#">View more</a>
-                    </figcaption>
-                </figure>
-                <figure class="effect-julia item">
-                    <img src="img/gallery-img-03.jpg" alt="Image">
-                    <figcaption>
-                        <div>
-                            <p>Julia dances in the deep dark</p>
-                        </div>
-                        <a href="#">View more</a>
-                    </figcaption>
-                </figure>
-                <figure class="effect-julia item">
-                    <img src="img/gallery-img-04.jpg" alt="Image">
-                    <figcaption>
-                        <div>
-                            <p>Julia dances in the deep dark</p>
-                        </div>
-                        <a href="#">View more</a>
-                    </figcaption>
-                </figure>
-                <figure class="effect-julia item">
-                    <img src="img/gallery-img-05.jpg" alt="Image">
-                    <figcaption>
-                        <div>
-                            <p>Julia dances in the deep dark</p>
-                        </div>
-                        <a href="#">View more</a>
-                    </figcaption>
-                </figure>
-                <figure class="effect-julia item">
-                    <img src="img/gallery-img-06.jpg" alt="Image">
-                    <figcaption>
-                        <div>
-                            <p>Julia dances in the deep dark</p>
-                        </div>
-                        <a href="#">View more</a>
-                    </figcaption>
-                </figure>
-                <figure class="effect-julia item">
-                    <img src="img/gallery-img-07.jpg" alt="Image">
-                    <figcaption>
-                        <div>
-                            <p>Julia dances in the deep dark</p>
-                        </div>
-                        <a href="#">View more</a>
-                    </figcaption>
-                </figure>
-                <figure class="effect-julia item">
-                    <img src="img/gallery-img-08.jpg" alt="Image">
-                    <figcaption>
-                        <div>
-                            <p>Julia dances in the deep dark</p>
-                        </div>
-                        <a href="#">View more</a>
-                    </figcaption>
-                </figure>
-                <figure class="effect-julia item">
-                    <img src="img/gallery-img-09.jpg" alt="Image">
-                    <figcaption>
-                        <div>
-                            <p>Julia dances in the deep dark</p>
-                        </div>
+                <div class="container">
+    <div class="row justify-content-end">
+        <div class="col-4">
+            <form method="get" action="/board/list" name="searchFrm">
+            <div class="input-group mb-3">
+                <input type="text" name="searchkey" value ="{{searchkey}}" class="form-control" placeholder="검색어를 입력하세요" aria-label="제목 또는 내용 검색" aria-describedby="button-addon2">
+                <button onclick="checkSearchFrm()" class="btn btn-sm btn-outline-secondary" type="button" id="button-addon2">검색</button>
+            </div>
+          </form>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col col-12">
+            <div class="card">
+                <div class="card-header text-bg-dark">
+                    게시판
+                </div>
+                <div class="col-12">
+                    <a href="/board/register" class="btn btn-sm btn btn-outline-primary" style="float: ;:right: ;">등록</a>
+                </div>
+                <div class="card-body">
+                    <table class="table" >
+                        <tr>
+                            <td class="col-1 text-center">번호</td>
+                            <td class="text-center">제목</td>
+                            <td class="col-2 text-center">조회수</td>
+                            <td class="col-2 text-center">등록일</td>
+                        </tr>
+                        {% if(listdata != null ) %}
+                            {% for item in listdata %}
+                            <tr class="text-center">
+                                <td class="text-center">{{item.id}}</td>
+                                <td class="text-center"><a href="/board/view?id={{item.id}}&title={{item.title}}">{{item.title}}</a></td>
+                                <td class="text-center">{{item.viewcount}}</td>
+                                <td>{{common.dateFormat(item.regdate)}}</td>
+                            </tr>    
+                            {% endfor %}
+                        {% endif %}
+                    </table>
+                </div>
+                <div class="card-footer ">
+                <div class="card-footer d-flex justify-content-center">
+                     {{common.pageNavigation(10, page, totalpage, '/board/list','&searchkey='+searchkey) | safe }}   
+                </div>
+            </div>
+         </div>
+    </div>
+</div>
+<script>
+    function checkSearchFrm() {
+        let f = document.searchFrm;
+
+        if(f.searchkey.value == ''){
+            alert ('검색어를 입력하세요.');
+            f.searchkey.focus();
+            return;
+        }
+        f.submit();
+    }
+</script>
                         <a href="#">View more</a>
                     </figcaption>
                 </figure>
