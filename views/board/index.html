@@ -1,0 +1,72 @@
+{% include 'include/header.html' %}
+<div class="container">
+  <div class="row d-flex justify-content-end">
+    <div class="col-4">
+      <form method="get" action="/board/list" name="searchFrm">
+        <div class="input-group mb-3">
+          <input type="text" name="searchkey" value="{{searchkey}}" class="form-control" placeholder="검색어를 입력하세요." aria-label="제목 또는 내용 검색" aria-describedby="button-addon2">
+          <button onclick="checkSearchFrm();" class="btn btn-sm btn-outline-secondary" type="button" id="button-addon2">검색</button>
+        </div>  
+      </form>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+      <div class="col col-12">
+        <div class="card">
+          <div class="card-header text-bg-dark">
+            <div class="row">
+              <div class="col-10">게시판</div>
+              <div class="col-2">
+                <a href="/board/register" class="btn btn-sm btn btn-outline-primary">등록</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+              <table class="table">
+                <tr>
+                    <td class="col-1 text-center">번호</td>
+                    <td class="text-center">제목</td>
+                    <td class="col-2 text-center">조회수</td>
+                    <td class="col-2 text-center">등록일</td>
+                </tr>
+                {% if(listdata != null ) %}
+                    {% for item in listdata %}
+                    <tr class="text-center">
+                        <td class="text-center">{{item.id}}</td>
+                        <td class="text-center"><a href="/board/view?id={{item.id}}&title={{item.title}}">{{item.title}}</a></td>
+                        <td class="text-center">{{item.viewcount}}</td>
+                        <td class="text-center">{{common.dateFormat(item.regdate)}}</td>
+                    </tr>    
+                    {% endfor %}
+                {% endif %}
+            </table>  
+          </div>
+          <div class="card-footer d-flex justify-content-center">
+              {{ common.pageNavigation(5, page, totalpage, '/board/list', '&searchkey='+searchkey) | safe }}  <!--&하고 검색어넣어줌-->  
+           </div>
+      </div>
+      </div>
+  </div>
+</div>
+    <!-- 페이지이동버튼 -->
+    <div class="row">
+        <div class="d-flex justify-content-center">
+
+        </div>
+    </div>
+
+    <script>
+      function checkSearchFrm() {
+        let f = document.searchFrm;
+
+        if(f.searchkey.value == '') {
+          alert('검색어를 입력하세요');
+          f.searchkey.focus();
+          return;
+        }
+
+        f.submit();
+      }
+    </script>
+    
+{% include 'include/footer.html' %}

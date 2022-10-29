@@ -1,0 +1,45 @@
+{% include 'include/header.html' %}
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col col-12">
+                <div class="card col-12">
+                    <div class="card-header text-bg-dark">
+                        글쓰기
+                    </div>
+                    <form method="post" name="boardFrm" action="/board/register">
+                        <div class="card-body">
+                            <h3>제목</h3>
+                            <input type="text" name="title" style="width: 100%; margin-bottom: 10px;">
+                            <h3>내용</h3>
+                            <textarea name="content" style="width:100%;" rows="10"></textarea>
+                        </div>
+                    </form>
+                    
+                    <div class="card-footer d-flex justify-content-center">
+                        <a href="#" onclick="checkFrm()" class="btn btn-sm btn-light btn-outline-dark">등록</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    function checkFrm() {
+        let f = document.boardFrm;
+
+        if(f.title.value == '') {
+            alert('제목을 입력하세요.');
+            f.title.focus();
+            return;
+        }
+
+        if(f.content.value == '') {
+            alert('내용을 입력하세요.');
+            f.content.focus();
+        return;
+        }
+
+        f.submit();
+
+    }
+</script>
+{% include 'include/footer.html' %}
