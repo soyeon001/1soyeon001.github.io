@@ -45,26 +45,31 @@ let register = ((req, res) => {
     res.render('board/register');
 });
 
-let edit = ((req, res)=> {
-    let {title, content} = req.body; //post
-    if(title == undefined) {
-        res.send('<script>alert("잘못된 접근입니다.")</script>');
+const change = ((req, res)=>{
+    let {id, page, searchkey} = req.query;
+
+
+    model.getView(id, (viewdata) =>{
+        res.render('board/change',{viewdata, page, searchkey});
+    });
+}); 
+
+const updateData = ((req, res)=>{
+    let {id, title, content} = req.body;
+
+    if(id == undefined) {
+        res.send('<script>alert("잘못된 접근입니다.");</script>');
         return;
     }
-    if(content == undefined) {
-        res.send('<script>alert("잘못된 접근입니다.")</script>');
-        return;
-    }
-    
-    model.getEdit(title, content, (viewdata)=>{
-        res.send('<script>alert("수정되었습니다."); location.href = "/board/list"; </script>');
+
+    model.updateData(id, title, content, (viewdata) =>{
+        res.send('<script>alert("수정되었습니다."); location.href = "/board/list";</script>');
     });
 
+    
 });
 
-let change = ((req, res) => {
-    res.render('board/change')
-});
+
 
 
 module.exports = {
