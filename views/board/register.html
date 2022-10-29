@@ -1,45 +1,63 @@
-{% include 'include/header.html' %}
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col col-12">
-                <div class="card col-12">
-                    <div class="card-header text-bg-dark">
-                        글쓰기
-                    </div>
-                    <form method="post" name="boardFrm" action="/board/register">
-                        <div class="card-body">
-                            <h3>제목</h3>
-                            <input type="text" name="title" style="width: 100%; margin-bottom: 10px;">
-                            <h3>내용</h3>
-                            <textarea name="content" style="width:100%;" rows="10"></textarea>
+
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <h1 class="mt-4">게시판</h1>
+            <div class="row">
+                <div class="col col-12">
+                    <div class="card">
+                        <div class="card-header text-bg-dark">
+                            <div class="row">
+                                <div class="col-10">게시판</div>
+                            </div>
                         </div>
-                    </form>
-                    
-                    <div class="card-footer d-flex justify-content-center">
-                        <a href="#" onclick="checkFrm()" class="btn btn-sm btn-light btn-outline-dark">등록</a>
+                        <div class="card-body">
+                            <form name="boardFrm" method="post" action="/board/change">
+                                <input type="hidden" name="id" class="form-control" value="{{viewdata.id}}">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="boardTitle" class="form-label">제목</label>
+                                            <input type="text " name="title" class="form-control" value="{{viewdata.title}}" placeholder="제목을 입력하세요.">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="boardContent" class="form-label">내용</label>
+                                            <textarea name="content" class="form-control" rows="5" placeholder="내용을 입력하세요.">{{viewdata.content}}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer d-flex justify-content-center">
+                            <a type="button" href="/board/list?page={{page}}&searchkey={{searchkey}}" class="btn btn-outline-secondary btn-sm me-1">목록</a>
+                            <button type="button" class="btn btn-outline-primary btn-sm me-1" onclick="checkFrm()">저장</button>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<script>
-    function checkFrm() {
-        let f = document.boardFrm;
+    
+    <script>
+        function checkFrm() {
+            let f = document.boardFrm;
 
-        if(f.title.value == '') {
-            alert('제목을 입력하세요.');
-            f.title.focus();
-            return;
+            if(f.title.value == '') {
+                alert('제목을 입력하세요');
+                f.title.focus();
+                return;
+            }
+
+            if(f.content.value == '') {
+                alert('내용을 입력하세요');
+                f.content.focus();
+                return;
+            }
+
+            f.submit();
         }
-
-        if(f.content.value == '') {
-            alert('내용을 입력하세요.');
-            f.content.focus();
-        return;
-        }
-
-        f.submit();
-
-    }
-</script>
-{% include 'include/footer.html' %}
+    </script>
